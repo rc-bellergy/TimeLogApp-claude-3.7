@@ -2,5 +2,6 @@
 
 Build a time log app that can log the time uage of the developer for individual projects.
 
-## Developer
+## AI Agent
 - Cline using anthropic/claude-3.7-sonnet
+
