@@ -88,8 +88,16 @@ function startTimer() {
     updateCurrentProjectDisplay();
     
     // Update timer state
+    if (AppState.timerState !== 'paused') {
+        timerElapsedTime = 0;
+    }
     AppState.timerState = 'running';
+    localStorage.setItem('timerState', 'running');
+    localStorage.setItem('currentProjectId', projectSelect.value);
+    
     timerStartTime = Date.now();
+    localStorage.setItem('timerStartTime', timerStartTime);
+    localStorage.setItem('timerElapsedTime', timerElapsedTime);
     
     // Update UI
     timerStatus.textContent = 'Timer running';
@@ -111,9 +119,11 @@ function pauseTimer() {
     // Update elapsed time
     const currentTime = Date.now();
     timerElapsedTime += (currentTime - timerStartTime);
+    localStorage.setItem('timerElapsedTime', timerElapsedTime);
     
     // Update timer state
     AppState.timerState = 'paused';
+    localStorage.setItem('timerState', 'paused');
     
     // Update UI
     timerStatus.textContent = 'Timer paused';
@@ -158,9 +168,12 @@ function resetTimer() {
     // Reset timer variables
     timerStartTime = 0;
     timerElapsedTime = 0;
+    localStorage.removeItem('timerStartTime');
+    localStorage.removeItem('timerElapsedTime');
     
     // Update timer state
     AppState.timerState = 'stopped';
+    localStorage.removeItem('timerState');
     
     // Update UI
     timeDisplay.textContent = '00:00:00';
@@ -204,8 +217,51 @@ function handleSaveFormSubmit(e) {
     resetTimer();
 }
 
-// Event Listeners
+// Save timer state when page unloads
+window.addEventListener('beforeunload', () => {
+    if (AppState.timerState === 'running') {
+        const currentTime = Date.now();
+        timerElapsedTime += (currentTime - timerStartTime);
+        localStorage.setItem('timerElapsedTime', timerElapsedTime);
+        localStorage.setItem('timerStartTime', Date.now());
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Restore timer state from localStorage
+    AppState.currentProjectId = localStorage.getItem('currentProjectId');
+    const storedStart = localStorage.getItem('timerStartTime');
+    const storedElapsed = localStorage.getItem('timerElapsedTime');
+    const storedState = localStorage.getItem('timerState');
+    
+    // Always calculate elapsed time from storage regardless of state
+    if (storedStart && storedElapsed) {
+        timerStartTime = parseInt(storedStart);
+        timerElapsedTime = parseInt(storedElapsed);
+        AppState.timerState = storedState || 'stopped';
+        
+        // Calculate actual elapsed time using current timestamp
+        const currentTime = Date.now();
+        timerElapsedTime += (currentTime - timerStartTime);
+        
+        if (storedState === 'running') {
+            // Reset start time to now for accurate future calculations
+            timerStartTime = Date.now();
+            localStorage.setItem('timerStartTime', timerStartTime);
+            
+            timerInterval = setInterval(updateTimerDisplay, 1000);
+            updateTimerDisplay();
+            timerStatus.textContent = 'Timer running';
+            startBtn.disabled = true;
+            pauseBtn.disabled = false;
+            saveBtn.disabled = false;
+            projectSelect.disabled = true;
+        } else {
+            // Update display with calculated elapsed time
+            updateTimerDisplay();
+        }
+    }
+    
     // Load projects
     loadProjectsDropdown();
     
