@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Time Log - Timer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Developer Time Log</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Projects</a></li>
+                <li><a href="timer.html" class="active">Timer</a></li>
+                <li><a href="reports.html">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="timer-container">
+            <h2>Timer</h2>
+            
+            <div class="project-selection">
+                <label for="project-select">Select Project:</label>
+                <select id="project-select">
+                    <option value="">-- Select a project --</option>
+                    <!-- Projects will be loaded dynamically -->
+                </select>
+            </div>
+            
+            <div class="timer-display">
+                <div id="time-display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="start-btn" class="btn primary">Start</button>
+                    <button id="pause-btn" class="btn" disabled>Pause</button>
+                    <button id="save-btn" class="btn" disabled>Save</button>
+                </div>
+            </div>
+            
+            <div class="timer-info">
+                <div id="timer-status">Timer stopped</div>
+                <div id="current-project">No project selected</div>
+            </div>
+        </section>
+        
+        <!-- Save Time Log Modal -->
+        <div id="save-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>Save Time Log</h3>
+                <form id="save-form">
+                    <div class="form-group">
+                        <label for="time-spent">Time Spent:</label>
+                        <input type="text" id="time-spent" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="log-notes">Notes (optional):</label>
+                        <textarea id="log-notes"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">Save Log</button>
+                        <button type="button" class="btn" id="cancel-save-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Developer Time Log App</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/timer.js"></script>
+</body>
+</html>

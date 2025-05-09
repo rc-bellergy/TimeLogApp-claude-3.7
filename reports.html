@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Time Log - Reports</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Developer Time Log</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Projects</a></li>
+                <li><a href="timer.html">Timer</a></li>
+                <li><a href="reports.html" class="active">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="reports-container">
+            <h2>Time Reports</h2>
+            
+            <div class="project-selection">
+                <label for="report-project-select">Select Project:</label>
+                <select id="report-project-select">
+                    <option value="">-- Select a project --</option>
+                    <!-- Projects will be loaded dynamically -->
+                </select>
+            </div>
+            
+            <div class="project-summary">
+                <h3>Project Summary</h3>
+                <div id="project-details">
+                    <p>Select a project to view details</p>
+                </div>
+                <div id="time-summary" class="summary-box">
+                    <div class="summary-item">
+                        <span class="summary-label">Total Time:</span>
+                        <span id="total-time" class="summary-value">00:00:00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Sessions:</span>
+                        <span id="session-count" class="summary-value">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-logs">
+                <h3>Time Logs</h3>
+                <div id="logs-container">
+                    <p id="no-logs-message">No time logs for this project yet.</p>
+                    <table id="logs-table" class="logs-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Duration</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-body">
+                            <!-- Time logs will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Developer Time Log App</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>
